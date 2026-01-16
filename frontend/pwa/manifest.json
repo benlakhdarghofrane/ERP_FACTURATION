@@ -1,0 +1,20 @@
+// Fichier: erp-facturation-pwa/frontend/pwa/manifest.json
+// TODO: Manifeste PWA
+
+{
+  "name": "ERP Facturation PWA",
+  "short_name": "ERP Facturation",
+  "description": "Application de facturation et de gestion de livraisons PWA.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    // TODO: Ajouter les icônes de différentes tailles
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+# Fichier: erp-facturation-pwa/docker-compose.yml
+# TODO: Configuration Docker Compose pour le développement local
+
+version: '3.8'
+services:
+  # TODO: Service pour la base de données PostgreSQL
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      # TODO: Monter le dossier database pour l'initialisation du schéma
+      # - ./database:/docker-entrypoint-initdb.d
+
+  # TODO: Service pour le backend NestJS
+  backend:
+    build:
+      context: ./backend
+      target: development
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      # ... autres variables d'environnement
+
+  # TODO: Service pour le frontend Next.js
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3001:3000" # Next.js tourne par défaut sur 3000
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:3000
+      # ... autres variables d'environnement
+
+volumes:
+  db_data:
